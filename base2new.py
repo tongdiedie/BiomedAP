@@ -10,11 +10,13 @@ MODEL = "BiomedCLIP"
 CFG = "vit_b16_base2new"
 
 LOADEP = 50
-CTP = "middle"
+CTP = "end"
 CSC = False
 NCTX = 4
 SUB_base = "base"
 SUB_novel = "new"
+
+LOW_TEMPLATE_TYPE = "minimal"  # minimal/article/generic/medical_minimal/empty
 
 # 定义训练和测试函数
 def run_experiment(args):
@@ -31,7 +33,7 @@ def run_experiment(args):
     else:
         LOADEP = 50
     # 训练阶段
-    DIR = f"output/base2new/train_{SUB_base}/{dataset}/shots_{shots}/{TRAINER}/nctx{NCTX}_csc{CSC}_ctp{CTP}/seed{seed}"
+    DIR = f"output/base2new/train_{SUB_base}/{dataset}/shots_{shots}/{TRAINER}/nctx{NCTX}_csc{CSC}_ctp{CTP}_low{LOW_TEMPLATE_TYPE}/seed{seed}"
     
     if os.path.exists(DIR):
         print(f"Oops! The results exist at {DIR} (so skip this job)")
@@ -45,12 +47,13 @@ def run_experiment(args):
             "--config-file", f"{config_yaml}",
             "--output-dir", DIR,
             "DATASET.NUM_SHOTS", str(shots),
-            "DATASET.SUBSAMPLE_CLASSES", SUB_base
+            "DATASET.SUBSAMPLE_CLASSES", SUB_base,
+            f"TRAINER.{method.upper()}.LOW_TEMPLATE_TYPE", LOW_TEMPLATE_TYPE
         ])
         
 
     # 测试阶段
-    COMMON_DIR = f"{dataset}/shots_{shots}/{TRAINER}/nctx{NCTX}_csc{CSC}_ctp{CTP}/seed{seed}"
+    COMMON_DIR = f"{dataset}/shots_{shots}/{TRAINER}/nctx{NCTX}_csc{CSC}_ctp{CTP}_low{LOW_TEMPLATE_TYPE}/seed{seed}"
     MODEL_DIR = f"output/base2new/train_{SUB_base}/{COMMON_DIR}"
     DIR = f"output/base2new/test_{SUB_novel}/{COMMON_DIR}"
     if os.path.exists(DIR):
@@ -68,7 +71,8 @@ def run_experiment(args):
             "--load-epoch", str(LOADEP),
             "--eval-only",
             "DATASET.NUM_SHOTS", str(shots),
-            "DATASET.SUBSAMPLE_CLASSES", SUB_novel
+            "DATASET.SUBSAMPLE_CLASSES", SUB_novel,
+            f"TRAINER.{method.upper()}.LOW_TEMPLATE_TYPE", LOW_TEMPLATE_TYPE
         ])
         pro_path = os.path.join(MODEL_DIR, 'prompt_learner')
         ten_path = os.path.join(MODEL_DIR, 'tensorboard')
@@ -84,10 +88,11 @@ if __name__ == "__main__":
     # methods = ["BiomedCoOp", "KgCoOp", "CoOp", "CoCoOp", "ProGrad"]
     # datasets = ["btmri", "busi", "chmnist", "covid", "ctkidney", "dermamnist", "kneexray", "kvasir", "lungcolon", "octmnist", "retina"]
     # methods = ["BiomedDPT", "BiomedCoOp", "KgCoOp", "CoOp", "CoCoOp", "ProGrad"]
-    methods = ["BiomedDPT_Robust"]
+    # methods = ["BiomedAP", "BiomedDPT_Robust"]
+    methods = ["BiomedAP"]
     datasets = ["btmri"]
 
-    seeds = [1]
+    seeds = [1, 2, 3]
     gpu_ids = [0]  # 假设有 3 块 GPU，可调整
 
     # 生成任务列表，并循环分配 GPU

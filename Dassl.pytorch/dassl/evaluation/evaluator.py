@@ -84,9 +84,9 @@ class Classification(EvaluatorBase):
             "=> result\n"
             f"* total: {self._total:,}\n"
             f"* correct: {self._correct:,}\n"
-            f"* accuracy: {acc:.1f}%\n"
-            f"* error: {err:.1f}%\n"
-            f"* macro_f1: {macro_f1:.1f}%"
+            f"* accuracy: {acc:.2f}%\n"
+            f"* error: {err:.2f}%\n"
+            f"* macro_f1: {macro_f1:.2f}%"
         )
 
         if self._per_class_res is not None:
@@ -107,10 +107,10 @@ class Classification(EvaluatorBase):
                     f"* class: {label} ({classname})\t"
                     f"total: {total:,}\t"
                     f"correct: {correct:,}\t"
-                    f"acc: {acc:.1f}%"
+                    f"acc: {acc:.2f}%"
                 )
             mean_acc = np.mean(accs)
-            print(f"* average: {mean_acc:.1f}%")
+            print(f"* average: {mean_acc:.2f}%")
 
             results["perclass_accuracy"] = mean_acc
 

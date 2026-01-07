@@ -28,8 +28,8 @@ $SUB_base = "base"
 $SUB_novel = "new"
 
 # Robust 参数配置
-$LOW_TEMPLATE_TYPE = "minimal" # minimal empty medical_minimal
-#$L1_LAMBDA_HIGH = 0.5
+$LOW_TEMPLATE_TYPE = "minimal" # minimal/article/generic/medical_minimal/empty
+# $L1_LAMBDA_HIGH = 0.5
 # $L1_LAMBDA_LOW = 0.3
 # $KL_LAMBDA = 0.1
 
