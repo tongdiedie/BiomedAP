@@ -23,7 +23,7 @@ $SHOTS = 16
 $LOADEP = 50
 $CTP = "end"
 $CSC = "False"
-$NCTX = 4
+$NCTX = 5
 $SUB_base = "base"
 $SUB_novel = "new"
 

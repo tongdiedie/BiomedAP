@@ -22,7 +22,7 @@ param(
 )
 
 # 配置参数
-$NCTX = 4
+$NCTX = 5
 $CSC = "False"
 $CTP = "end"
 
