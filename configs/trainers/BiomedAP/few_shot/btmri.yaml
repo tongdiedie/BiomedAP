@@ -37,7 +37,7 @@ TRAINER:
     L1_LAMBDA_HIGH: 12.5    
     KL_LAMBDA: 0.25
     
-    L1_LAMBDA_LOW: 0.3
+    L1_LAMBDA_LOW: 6.0
     LOW_TEMPLATE_TYPE: "minimal"
 
     ENABLE_FUSION: True
