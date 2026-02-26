@@ -176,31 +176,7 @@ def extend_cfg(cfg):
     cfg.TRAINER.BIOMEDDPT.KL_LAMBDA = 1.0
     cfg.TRAINER.BIOMEDDPT.N_PROMPTS = 50
 
-    # ========== 【关键】添加 BiomedDPT_Robust 配置 ==========
-    cfg.TRAINER.BIOMEDDPT_ROBUST = CN()
-    cfg.TRAINER.BIOMEDDPT_ROBUST.CTX_INIT = "a photo of a"
-    cfg.TRAINER.BIOMEDDPT_ROBUST.CSC = False
-    cfg.TRAINER.BIOMEDDPT_ROBUST.CLASS_TOKEN_POSITION = "middle" # 'middle' or 'end' or 'front'
-    cfg.TRAINER.BIOMEDDPT_ROBUST.N_CTX = 4
-    cfg.TRAINER.BIOMEDDPT_ROBUST.PREC = "fp32"
-    cfg.TRAINER.BIOMEDDPT_ROBUST.N_PROMPTS = 50
-    # 【关键】低质量 Prompt 约束参数
-    cfg.TRAINER.BIOMEDDPT_ROBUST.L1_LAMBDA_HIGH = 12.5  # λ1：向高质量对齐
-    cfg.TRAINER.BIOMEDDPT_ROBUST.KL_LAMBDA = 0.25       # λ2：知识蒸馏
-    cfg.TRAINER.BIOMEDDPT_ROBUST.L1_LAMBDA_LOW = 0.3    # λ3：向低质量对齐【新增】
-    cfg.TRAINER.BIOMEDDPT_ROBUST.LOW_TEMPLATE_TYPE = "minimal"  # 低质量模板类型【新增】
 
-    # ========== 【新增】BiomedContrast 配置 ==========
-    cfg.TRAINER.BIOMEDCONTRAST = CN()
-    # 基础参数
-    cfg.TRAINER.BIOMEDCONTRAST.CTX_INIT = "a photo of a"  # 上下文初始化
-    cfg.TRAINER.BIOMEDCONTRAST.CSC = False  # 是否使用class-specific context
-    cfg.TRAINER.BIOMEDCONTRAST.CLASS_TOKEN_POSITION = "end"  # 类别token位置
-    cfg.TRAINER.BIOMEDCONTRAST.N_CTX = 4  # 上下文向量数量
-    cfg.TRAINER.BIOMEDCONTRAST.PREC = "fp32"  # 精度：fp16, fp32, amp
-    cfg.TRAINER.BIOMEDCONTRAST.N_PROMPTS = 50  # BiomedDPT模板数量
-
-    # ========== 【新增】BiomedAP 配置 ==========
     cfg.TRAINER.BIOMEDAP = CN()
     cfg.TRAINER.BIOMEDAP.CTX_INIT = "a photo of a"
     cfg.TRAINER.BIOMEDAP.CSC = False
@@ -213,16 +189,10 @@ def extend_cfg(cfg):
     cfg.TRAINER.BIOMEDAP.L1_LAMBDA_LOW = 0.3
     cfg.TRAINER.BIOMEDAP.LOW_TEMPLATE_TYPE = "minimal"
 
-    cfg.TRAINER.BIOMEDAP.ENABLE_FUSION = False      # 是否启用跨模态融合
-    cfg.TRAINER.BIOMEDAP.FUSION_LAYERS = [5, 8]     # 融合层索引
-    cfg.TRAINER.BIOMEDAP.ALIGNMENT_LAMBDA = 0.0     # Prompt对齐损失权重
+    cfg.TRAINER.BIOMEDAP.ENABLE_FUSION = False 
+    cfg.TRAINER.BIOMEDAP.FUSION_LAYERS = [5, 8]    
+    cfg.TRAINER.BIOMEDAP.ALIGNMENT_LAMBDA = 0.0     
 
-    # 损失权重参数
-    cfg.TRAINER.BIOMEDCONTRAST.L1_LAMBDA = 12.5  # λ1: L1损失权重（与正样本对齐）
-    cfg.TRAINER.BIOMEDCONTRAST.KL_LAMBDA = 0.25  # λ2: KL散度权重（与zero-shot对齐）
-    cfg.TRAINER.BIOMEDCONTRAST.REPULSION_LAMBDA = 0.1  # λ3: 负样本排斥损失权重【核心新增】
-    cfg.TRAINER.BIOMEDCONTRAST.MARGIN = 0.3  # Margin值：控制排斥程度【核心新增】
-    
     cfg.TRAINER.VPT= CN()
     cfg.TRAINER.VPT.CTX_INIT = "a photo of a"  # initialization words
     cfg.TRAINER.VPT.CSC = False  # class-specific context

@@ -2,12 +2,10 @@ import os
 from multiprocessing import Pool
 import shutil
 DATA = "data"
-# NCTX = 4
 CSC = False
 CTP = "end"
 CFG = "vit_b16"
 
-# Robust 参数配置
 LOW_TEMPLATE_TYPE = "minimal"  # minimal, article, empty, medical_minimal, generic
 
 def run_experiment(args):
@@ -17,7 +15,6 @@ def run_experiment(args):
     TRAINER = f"{METHOD}_{MODEL}"
     os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id) 
 
-    # dir_path = f"output/{dataset}/shots_{shots}/{TRAINER}/nctx{NCTX}_csc{CSC}_ctp{CTP}_low{LOW_TEMPLATE_TYPE}/seed{seed}"
     dir_path = f"output/{dataset}/shots_{shots}/{TRAINER}/csc{CSC}_ctp{CTP}_low{LOW_TEMPLATE_TYPE}/seed{seed}"
     if METHOD == "CoOp" or METHOD == "CoCoOp" or METHOD == "VPT" or METHOD == "DPT" or METHOD == "Maple":
         config_yaml = f'configs/trainers/{METHOD}/{CFG}.yaml'
@@ -59,16 +56,15 @@ if __name__ == "__main__":
     # shots = [1]
 
     seeds = [1, 2, 3]
-    gpu_ids = [0]  # 假设有 3 块 GPU，可调整
+    gpu_ids = [0]
     # methods = ["BiomedAP", "BiomedDPT_Robust", "BiomedDPT", "BiomedCoOp", "KgCoOp", "CoOp", "CoCoOp", "ProGrad"]
     # methods = ["CoOp", "Maple", "VPT", "DPT"]
     methods = ["BiomedAP"]
     # models = ["BiomedCLIP", "CLIP", "PubMedCLIP", "PMCCLIP"]
     # models = ["BiomedCLIP"]
     models = ["BiomedCLIP"]
-    # 生成任务列表，并循环分配 GPU
     tasks = [
-        (method, model, dataset, shot, seed, gpu_ids[(i + j + k + l + h) % len(gpu_ids)])  # 轮流分配 GPU
+        (method, model, dataset, shot, seed, gpu_ids[(i + j + k + l + h) % len(gpu_ids)])
         for h, model in enumerate(models)
         for k, method in enumerate(methods)
         for i, dataset in enumerate(datasets)
@@ -76,5 +72,5 @@ if __name__ == "__main__":
         for l, seed in enumerate(seeds)
     ]
 
-    with Pool(processes=8) as pool:  # 并行 6 个进程 15
+    with Pool(processes=8) as pool:
         pool.map(run_experiment, tasks)

@@ -2,7 +2,7 @@ import os
 import subprocess
 from multiprocessing import Pool
 
-# 自定义配置
+
 DATA = "data"
 MODEL = "BiomedCLIP"
 # METHOD = f"TIPAdapter_{MODEL}"

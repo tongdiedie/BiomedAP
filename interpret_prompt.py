@@ -3,32 +3,27 @@ import argparse
 import torch
 from open_clip.src.open_clip import create_model_from_pretrained, get_tokenizer
 
-# 数据集列表
 datasets = ["btmri", "busi", "chmnist", "covid", "ctkidney", "dermamnist", "kneexray", "kvasir", "lungcolon", "octmnist", "retina"]
 
-# 加载 BiomedCLIP 模型和分词器
 biomedclip_model, _ = create_model_from_pretrained(
     'hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224',
     cache_dir='clip/checkpoints/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224'
 )
-biomedclip_model = biomedclip_model.float().eval()  # 转换为 float 并设置为评估模式
+biomedclip_model = biomedclip_model.float().eval()
 tokenizer = get_tokenizer(
     'hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224',
     cache_dir='clip/checkpoints/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224'
 )
 
-# 解析命令行参数
 parser = argparse.ArgumentParser()
 parser.add_argument("--topk", default=4, type=int, help="Select top-k similar words")
 args = parser.parse_args()
 topk = args.topk
 
-# 遍历数据集
 for dataset in datasets:
-    # 设置模型路径
+    
     fpath = f"output/{dataset}/shots_16/BiomedDPT_BiomedCLIP/cscFalse_ctpend_ctxinit/seed1/prompt_learner/model.pth.tar-100"
     
-    # 检查路径是否存在
     if not os.path.exists(fpath):
         print(f"模型路径不存在: {fpath}")
         continue
