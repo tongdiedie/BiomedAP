@@ -1,20 +1,20 @@
 # Training and Evaluation
 
 We provide bash scripts in [scripts/](../scripts) for each technique including prompt learning and other few-shot adaptation techniques.
-Make sure to configure the dataset paths in environment variable `DATA` and run the commands from the main directory `BiomedDPT/`.
-Below we provide training and evaluation instructions for Biomed-DPT. The same instructions applies for all other techniques.
+Make sure to configure the dataset paths in environment variable `DATA` and run the commands from the main directory `biomedap/`.
+Below we provide training and evaluation instructions for BiomedAP. The same instructions applies for all other techniques.
 
 
 ### Training time and compute
-We train BiomedCoOp on each dataset with a batch size of 4 using a **three** NVIDIA 4090 GPU. Currently. You will have to specify the GPU number that you want to use.
+We train BiomedAP on each dataset with a batch size of 4 using a **one** NVIDIA 5090 GPU. Currently. You will have to specify the GPU number that you want to use.
 
-## Biomed-DPT
+## Biomed-AP
 
 #### (1) Few-shot evaluation setting
 
-The default training settings are provided in the config files at `configs/trainers/BiomedDPT/few_shot`. All hyper-parameters can be modified using this config file.
+The default training settings are provided in the config files at `configs/trainers/BiomedAP/few_shot`. All hyper-parameters can be modified using this config file.
 
-Below, we provide instructions to train Biomed-DPT  on any dataset. 
+Below, we provide instructions to train Biomed-AP  on any dataset. 
 
 ```bash
 # All possible dataset values include [btmri, busi, chmnist, covid, ctkidney, dermamnist, kneexray, kvasir, lungcolon, octmnist, retina]
@@ -33,7 +33,21 @@ you can also use few_shot_coop.py to train all coop-based methods on any dataset
 python few_shot_coop.py
 ```
 
-#### x # Instructions borrowed from https://github.com/KaiyangZhou/Dassl.pytorch#installationcd Dassl.pytorch/​# Install dependenciespip install -r requirements.txt​# Install this librarypython setup.py developcd ..bash
+#### Dassl.pytorch Instructions borrowed from https://github.com/KaiyangZhou/Dassl.pytorch#installationcd 
+
+Install dependencies
+
+```
+pip install -r requirements.txt
+```
+
+Install this library
+
+```
+cd Dassl.pytorch
+python setup.py develop
+cd ..bash
+```
 
 Once the above trainings and evaluations are completed, the `output/` directory should have the following structure:
 
@@ -41,7 +55,7 @@ Once the above trainings and evaluations are completed, the `output/` directory 
 output
 |–– btmri/
 |   |–– shots_16/
-|   |   |–– BiomedDPT_BiomedCLIP/
+|   |   |–– BiomedAP_BiomedCLIP/
 |   |   |   |–– nctx4_cscFalse_ctpend/
 |   |   |   |   |–– seed1/
 |   |   |   |   |–– seed2/
@@ -53,7 +67,7 @@ Now use the script `show.py` and run the commands below to show results:
 # prints averaged results
 python show.py
 |––show_base_to_new() : show base2new results
-|––**show_few_shot_coop()**: show the results of all few-shot coop-based methods 
+|––show_few_shot_coop(): show the results of all few-shot coop-based methods 
 |––show_zeroshot() : show the results of all zero-shot VLMs 
 |––show_few_shot_adapter() : show the results of all few-shot adapter-based methods 
 |––show_base_model() : show the results of few-shot adapter-based methods based all VLMs
@@ -63,7 +77,7 @@ The above steps can be repeated for other individual datasets.
 
 #### (2) Base-to-Novel class generalization setting
 
-Below, we provide instructions to train Biomed-DPT  on Base-to-Novel class. 
+Below, we provide instructions to train BiomedAP  on Base-to-Novel class. 
 
 ```bash
 # All possible dataset values include [btmri, chmnist, covid, ctkidney, dermamnist, kneexray, kvasir, lungcolon, octmnist, retina]
@@ -94,7 +108,7 @@ output
 |   |–– test_new/
 |   |   |–– btmri/
 |   |   |   |–– shots_16/
-|   |   |   |   |–– BiomedDPT_BiomedCLIP/
+|   |   |   |   |–– BiomedAP_BiomedCLIP/
 |   |   |   |   |   |–– nctx4_cscFalse_ctpend/
 |   |   |   |   |   |   |–– seed1/
 |   |   |   |   |   |   |–– seed2/
@@ -102,7 +116,7 @@ output
 |   |–– train_base/
 |   |   |–– btmri/
 |   |   |   |–– shots_16/
-|   |   |   |   |–– BiomedDPT_BiomedCLIP/
+|   |   |   |   |–– BiomedAP_BiomedCLIP/
 |   |   |   |   |   |–– nctx4_cscFalse_ctpend/
 |   |   |   |   |   |   |–– seed1/
 |   |   |   |   |   |   |–– seed2/
@@ -129,6 +143,7 @@ For other techniques, we provide their corresponding configs and scripts as foll
 configs
 |–– datasets/
 |–– trainers/
+|   |–– BiomedAP/
 |   |–– BiomedCoOp/
 |   |-- BiomedDPT/
 |   |–– CLIP_Adapter/
@@ -144,6 +159,7 @@ configs
 
 ```
 scripts
+|–– biomedap/
 |–– biomedcoop/
 |–– biomeddpt/
 |–– clip_adapter/
