@@ -1,4 +1,4 @@
-# BioMed-DPT: Dual Modality Prompt Tuning for Biomedical Vision-Language Models
+# BiomedAP: A Vision-Informed Dual-Anchor Framework with Gated Cross-Modal Fusion for Robust Medical Vision-Language Adaptation
 ## Overview
 
 ![main figure](assets/compare.jpg)
@@ -21,11 +21,9 @@ Extensive experiments across 11 benchmarks demonstrate that BiomedAP consistentl
 
 
 **Overall framework of MQAC with cross-modal prompt fusion.**
-  MQAC forms two anchors from clinical text: a High-Quality (Expert) branch (descriptive/noisy) and a Low-Quality (Core) branch (reliable).
-  Their features ($f_{high}$, $f_{low}$) regularize the learnable text context to mitigate prompt drift.
-  Training optimizes a composite loss, where a **Confidence-Aware Adaptive Loss** balances anchor terms and the task loss.
-  The **Unified Interaction Space** injects bidirectional cross-attention (MHCA) between text-context and visual-prompt tokens at selected transformer layers to produce enhanced prompts for class-wise aggregation at inference.
-
+  DAC constructs a High-Quality (Expert) anchor and a Low-Quality (Core) anchor, whose features ($f_{high}$, $f_{low}$) regularize the learnable text context to reduce prompt drift.
+  Training uses a **Confidence-Aware Adaptive Loss** to balance anchor regularization with the task loss.
+  A **Unified Interaction** Space applies bidirectional MHCA between text-context and visual-prompt tokens at selected layers, followed by class-wise aggregation at inference.
 ##  Supported Methods
 
 | Method                    | Paper                                         |                             Configs                             |          Training Scripts          | Trainers   |

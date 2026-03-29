@@ -126,7 +126,7 @@ output
 Now use the script `show.py` and run the commands below to calculate the averaged results:
 ```bash
 python show.py
-|––**show_base_to_new()** : show base2new results
+|––show_base_to_new() : show base2new results
 |––show_few_shot_coop(): show the results of all few-shot coop-based methods 
 |––show_zeroshot() : show the results of all zero-shot VLMs 
 |––show_few_shot_adapter() : show the results of all few-shot adapter-based methods 
